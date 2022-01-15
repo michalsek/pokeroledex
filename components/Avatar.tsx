@@ -6,8 +6,11 @@ interface AvatarProps {
 
 const Avatar: React.FC<AvatarProps> = ({ source }) => {
   return (
-    <View style={styles.container}>
-      <Image source={source} style={styles.image} />
+    <View>
+      <View style={styles.imageContainer}>
+        <Image source={source} style={styles.image} />
+      </View>
+      <View style={styles.bottomBorder} />
     </View>
   );
 };
@@ -15,7 +18,8 @@ const Avatar: React.FC<AvatarProps> = ({ source }) => {
 export default Avatar;
 
 const styles = StyleSheet.create({
-  container: {
+  imageContainer: {
+    marginHorizontal: 8,
     aspectRatio: 1,
     borderWidth: 6,
     borderRadius: 10,
@@ -25,5 +29,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     aspectRatio: 1,
     flex: 1,
+  },
+  bottomBorder: {
+    zIndex: -1,
+    marginTop: -6,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#b2b4b8',
   },
 });

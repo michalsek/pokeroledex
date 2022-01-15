@@ -2,8 +2,8 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView, Edge } from 'react-native-safe-area-context';
 
-import Size from '../constants/Size';
-import Colors from '../constants/Colors';
+import Size from 'constants/Size';
+import Colors from 'constants/Colors';
 
 interface ScreenProps {
   fullScreen?: boolean;

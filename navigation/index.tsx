@@ -5,9 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
 import Colors from '../constants/Colors';
+import Icon from '../components/Icon';
 import TrainerScreen from '../screens/TrainerScreen';
 import PokemonsScreen from '../screens/PokemonsScreen';
-import Icon from '../components/Icon';
 import { RootStackParamList, RootTabParamList } from '../types';
 
 function TabBarIcon(props: {

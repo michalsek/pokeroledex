@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
+import { DataProvider } from './context/Store';
 import Navigation from './navigation';
 
 export default function App() {
@@ -13,8 +14,10 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Navigation />
-      <StatusBar />
+      <DataProvider>
+        <Navigation />
+        <StatusBar />
+      </DataProvider>
     </SafeAreaProvider>
   );
 }

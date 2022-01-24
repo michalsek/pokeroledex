@@ -19,7 +19,11 @@ const Scrollable: React.FC<
     return <View style={style}>{children}</View>;
   }
 
-  return <ScrollView style={style}>{children}</ScrollView>;
+  return (
+    <ScrollView>
+      <View style={style}>{children}</View>
+    </ScrollView>
+  );
 };
 
 const Screen: React.FC<React.PropsWithChildren<ScreenProps>> = ({
@@ -27,7 +31,7 @@ const Screen: React.FC<React.PropsWithChildren<ScreenProps>> = ({
   fullScreen = false,
   scrollable,
 }) => {
-  const edges: Edge[] = fullScreen ? [] : ['left', 'right', 'bottom'];
+  const edges: Edge[] = fullScreen ? [] : ['left', 'right'];
 
   if (fullScreen) {
     return (

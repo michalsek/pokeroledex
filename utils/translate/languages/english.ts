@@ -1,0 +1,81 @@
+export default {
+  rank: {
+    Starter: 'Starter',
+  },
+  attributes: {
+    strength: 'Strength',
+    dexterity: 'Dexterity',
+    vitality: 'Vitality',
+    insight: 'Insight',
+  },
+  socialAttributes: {
+    tough: 'Tough',
+    cool: 'Cool',
+    beauty: 'Beauty',
+    clever: 'Clever',
+    cute: 'Cute',
+  },
+  skills: {
+    fight: {
+      groupName: 'Fight',
+      brawl: 'Brawl',
+      throw: 'Throw',
+      evasion: 'Evasion',
+      weapons: 'Weapons',
+    },
+    survival: {
+      groupName: 'Survival',
+      alert: 'Alert',
+      athletic: 'Athletic',
+      nature: 'Nature',
+      stealth: 'Stealth',
+    },
+    social: {
+      groupName: 'Social',
+      allure: 'Allure',
+      etiquette: 'Etiquette',
+      intimidate: 'Intimidate',
+      perform: 'Perform',
+    },
+    knowledge: {
+      groupName: 'Knowledge',
+      crafts: 'Crafts',
+      lore: 'Lore',
+      medicine: 'Medicine',
+      science: 'Science',
+    },
+    extra: {
+      groupName: 'Extra',
+    },
+  },
+  trainer: {
+    name: 'Name',
+    player: 'Player',
+    cncept: 'Concept',
+    nature: 'Nature',
+    age: 'Age',
+    confidence: 'Confidence',
+    money: 'Money',
+    maxHP: 'Max HP',
+    actualHP: 'HP',
+    maxWill: 'Max Will',
+    actualWill: 'Will',
+
+    pokemon: {
+      caught: 'Caught',
+      seen: 'Seen',
+    },
+  },
+  pokemon: {
+    number: 'Number',
+    happiness: 'Happiness',
+    loyalty: 'Loyalty',
+    battleNumber: 'No. of battles',
+    victories: 'Victories',
+    maxHp: 'Max HP',
+    maxWill: 'Max Will',
+    nature: 'Nature',
+    confidence: 'Confidence',
+    acceessory: 'Accessory',
+  },
+};

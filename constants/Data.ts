@@ -48,7 +48,7 @@ export const EmptyTrainer: Trainer = {
     knowledge: {
       crafts: 0,
       lore: 0,
-      medicne: 0,
+      medicine: 0,
       science: 0,
     },
     extra: {},
@@ -98,7 +98,7 @@ export const EmptyPokemon: Pokemon = {
     knowledge: {
       crafts: 0,
       lore: 0,
-      medicne: 0,
+      medicine: 0,
       science: 0,
     },
     extra: {},

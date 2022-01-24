@@ -1,20 +1,44 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 
-import Colors from '../constants/Colors';
-import Icon from '../components/Icon';
-import TrainerScreen from '../screens/TrainerScreen';
-import PokemonsScreen from '../screens/PokemonsScreen';
-import { RootStackParamList, RootTabParamList } from '../types';
+import Colors from 'constants/Colors';
+import Icon from 'components/Icon';
+
+import TrainerScreen from 'screens/TrainerScreen';
+import PokemonsScreen from 'screens/PokemonsScreen';
+import MetaScreen from 'screens/Meta';
+import {
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from '../types';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>['name'];
   color: string;
 }) {
   return <Icon size={30} style={{ marginBottom: -3 }} {...props} />;
+}
+
+function TitleButton(props: { children: string }) {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const onPressHeader = () => {
+    navigation.navigate('Meta');
+  };
+
+  return (
+    <TouchableOpacity onPress={onPressHeader}>
+      <Text style={{ color: '#fff', fontSize: 18 }}>{props.children}</Text>
+    </TouchableOpacity>
+  );
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
@@ -26,7 +50,7 @@ function BottomTabNavigator() {
       screenOptions={{
         tabBarActiveTintColor: Colors.textAlt,
         tabBarInactiveTintColor: Colors.textAltDisabled,
-        headerTitleStyle: { color: Colors.textAlt },
+        headerTitle: (props) => <TitleButton {...props} />,
         headerBackground: () => (
           <View
             style={[
@@ -75,10 +99,18 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName="Root"
+      screenOptions={{ presentation: 'modal' }}
+    >
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Meta"
+        component={MetaScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -64,7 +64,7 @@ const WillInput: React.FC<Props> = (props) => {
     >
       <Text
         style={{
-          fontSize: editable ? 18 : 24,
+          fontSize: editable ? 14 : 15,
           color: '#fff',
           fontWeight: '700',
           textTransform: 'uppercase',

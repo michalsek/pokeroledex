@@ -4,10 +4,11 @@ import { get, cloneDeep, set, times } from 'lodash';
 
 import useData from 'context/Store';
 import translate from '../../utils/translate';
+import getDataPath from '../../utils/getDataPath';
 
 interface Props {
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
   attributeType: 'attributes' | 'socialAttributes';
   attributeValueName: string;
   maxValue?: number;
@@ -23,33 +24,29 @@ const AttributeInput: React.FC<Props> = (props) => {
     backgroundColor = '#00b2c2',
     attributeValueName,
   } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
+  const dataPath = getDataPath(
+    characterPath,
+    attributeType,
+    attributeValueName,
+  );
 
-  const value =
-    get(data, [characterPath, attributeType, attributeValueName]) ?? 0;
+  const value = get(trainer, dataPath) ?? 0;
 
   const onLowerAttribute = () => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
 
-    set(
-      newData,
-      [characterPath, attributeType, attributeValueName],
-      Math.max(0, value - 1),
-    );
+    set(newData, dataPath, Math.max(0, value - 1));
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   const onHigherAttribute = () => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
 
-    set(
-      newData,
-      [characterPath, attributeType, attributeValueName],
-      Math.min(maxValue, value + 1),
-    );
+    set(newData, dataPath, Math.min(maxValue, value + 1));
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   return (

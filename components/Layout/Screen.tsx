@@ -8,6 +8,7 @@ import Colors from 'constants/Colors';
 interface ScreenProps {
   fullScreen?: boolean;
   scrollable?: boolean;
+  insets?: ('left' | 'right' | 'bottom' | 'top')[];
 }
 
 const Scrollable: React.FC<
@@ -30,8 +31,9 @@ const Screen: React.FC<React.PropsWithChildren<ScreenProps>> = ({
   children,
   fullScreen = false,
   scrollable,
+  insets = ['left', 'right'],
 }) => {
-  const edges: Edge[] = fullScreen ? [] : ['left', 'right'];
+  const edges: Edge[] = fullScreen ? [] : insets;
 
   if (fullScreen) {
     return (

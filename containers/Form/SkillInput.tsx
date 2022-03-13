@@ -4,11 +4,12 @@ import { get, cloneDeep, set, times } from 'lodash';
 
 import useData from 'context/Store';
 import translate from '../../utils/translate';
+import getDataPath from '../../utils/getDataPath';
 
 interface Props {
   maxValue?: number;
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
   skillGroup: 'fight' | 'survival' | 'social' | 'knowledge' | 'extra';
   skillName: string;
 }
@@ -21,32 +22,21 @@ const SkillInput: React.FC<Props> = (props) => {
     skillGroup,
     skillName,
   } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
+  const dataPath = getDataPath(characterPath, skillGroup, skillName);
 
-  const value = get(data, [characterPath, skillGroup, skillName]) ?? 0;
+  const value = get(trainer, dataPath) ?? 0;
 
   const onLowerSkill = () => {
-    const newData = cloneDeep(data);
-
-    set(
-      newData,
-      [characterPath, skillGroup, skillName],
-      Math.max(0, value - 1),
-    );
-
-    onUpdateData(newData);
+    const newData = cloneDeep(trainer);
+    set(newData, dataPath, Math.max(0, value - 1));
+    onUpdateTrainer(newData);
   };
 
   const onHigherSkill = () => {
-    const newData = cloneDeep(data);
-
-    set(
-      newData,
-      [characterPath, skillGroup, skillName],
-      Math.min(maxValue, value + 1),
-    );
-
-    onUpdateData(newData);
+    const newData = cloneDeep(trainer);
+    set(newData, dataPath, Math.min(maxValue, value + 1));
+    onUpdateTrainer(newData);
   };
 
   return (

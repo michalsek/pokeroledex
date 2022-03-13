@@ -3,47 +3,50 @@ import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import { get, cloneDeep, set, toNumber } from 'lodash';
 
 import useData from 'context/Store';
+import getDataPath from '../../utils/getDataPath';
 
 interface Props {
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
 }
 
 const HPInput: React.FC<Props> = (props) => {
   const { editable, characterPath } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
+  const maxHpPath = getDataPath(characterPath, 'maxHP');
+  const actHpPath = getDataPath(characterPath, 'actualHP');
 
-  const maxHP = get(data, [characterPath, 'maxHP']);
-  const actualHP = get(data, [characterPath, 'actualHP']);
+  const maxHP = get(trainer, maxHpPath);
+  const actualHP = get(trainer, actHpPath);
 
   const onChangeMaxHP = (newText: string) => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
     const newMaxHP = toNumber(newText);
 
-    set(newData, [characterPath, 'maxHP'], newMaxHP);
+    set(newData, maxHpPath, newMaxHP);
 
     if (newMaxHP !== 0) {
       const newActualHP = Math.min(newMaxHP, actualHP);
-      set(newData, [characterPath, 'actualHP'], toNumber(newActualHP));
+      set(newData, actHpPath, toNumber(newActualHP));
     }
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   const onLowerActualHP = () => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
 
-    set(newData, [characterPath, 'actualHP'], Math.max(0, actualHP - 1));
+    set(newData, actHpPath, Math.max(0, actualHP - 1));
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   const onHigherActualHP = () => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
 
-    set(newData, [characterPath, 'actualHP'], Math.min(maxHP, actualHP + 1));
+    set(newData, actHpPath, Math.min(maxHP, actualHP + 1));
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   return (

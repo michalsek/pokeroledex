@@ -3,22 +3,24 @@ import { View, TextInput, Text } from 'react-native';
 import { get, cloneDeep, set, toNumber } from 'lodash';
 
 import useData from 'context/Store';
+import getDataPath from '../../utils/getDataPath';
 
 interface Props {
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
 }
 
 const MoneyInput: React.FC<Props> = (props) => {
   const { editable, characterPath } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
+  const dataPath = getDataPath(characterPath, 'money');
 
-  const money = get(data, [characterPath, 'money']);
+  const money = get(trainer, dataPath);
 
   const onChangeMoney = (newText: string) => {
-    const newData = cloneDeep(data);
-    set(newData, [characterPath, 'money'], toNumber(newText));
-    onUpdateData(newData);
+    const newData = cloneDeep(trainer);
+    set(newData, dataPath, toNumber(newText));
+    onUpdateTrainer(newData);
   };
 
   return (

@@ -31,7 +31,7 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
     });
   }, [navigation, editMode]);
 
-  const characterPath = 'trainer';
+  const characterPath = undefined;
 
   return (
     <Layout.Screen scrollable>

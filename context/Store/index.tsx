@@ -8,20 +8,23 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Trainer, Pokemon } from '../../types';
+import { Trainer } from '../../types';
 import { EmptyTrainer } from '../../constants/Data';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniqueId } from 'lodash';
 
 interface PokeData {
   trainers: {
-    [uui: string]: Trainer;
+    [uuid: string]: Trainer;
   };
 }
 
-interface ContextType {
+interface ContextType extends PokeData {
   trainer: Trainer;
-  onUpdateData: (data: PokeData) => void;
+  isLoading: boolean;
+  onClear: () => Promise<void>;
+  onAddTrainer: () => Promise<void>;
   setSelectedTrainer: (uuid: string) => void;
+  onUpdateTrainer: (newTrainer: Trainer) => Promise<void>;
 }
 
 const StorageKey = 'PokeroleData';
@@ -31,14 +34,19 @@ const initialValue: PokeData = {
 };
 
 const DataContext = createContext<ContextType>({
+  trainers: {},
+  isLoading: true,
   trainer: EmptyTrainer,
-  onUpdateData: () => {},
+  onAddTrainer: async () => {},
+  onUpdateTrainer: async () => {},
+  onClear: async () => {},
   setSelectedTrainer: () => {},
 });
 
 export const DataProvider: React.FC<PropsWithChildren<{}>> = (props) => {
   const { children } = props;
   const [data, setData] = useState<PokeData>(initialValue);
+  const [isLoading, setLoading] = useState(true);
   const [selectedTrainer, setSelectedTrainer] = useState<string>();
 
   useEffect(() => {
@@ -46,10 +54,18 @@ export const DataProvider: React.FC<PropsWithChildren<{}>> = (props) => {
       const dataJSON = await AsyncStorage.getItem(StorageKey);
 
       if (!dataJSON || isEmpty(dataJSON)) {
+        setLoading(false);
         return;
       }
 
-      setData(JSON.parse(dataJSON));
+      const loadedData = JSON.parse(dataJSON);
+
+      if (!isEmpty(loadedData.trainers)) {
+        setSelectedTrainer(Object.keys(loadedData.trainers)[0]);
+      }
+
+      setData(loadedData);
+      setLoading(false);
     })();
   }, []);
 
@@ -57,6 +73,34 @@ export const DataProvider: React.FC<PropsWithChildren<{}>> = (props) => {
     setData(newData);
 
     await AsyncStorage.setItem(StorageKey, JSON.stringify(newData));
+  };
+
+  const onAddTrainer = async () => {
+    const trainerId = uniqueId(`t-${Date.now()}-`);
+
+    await onUpdateData({
+      trainers: {
+        ...data.trainers,
+        [trainerId]: EmptyTrainer,
+      },
+    });
+
+    setSelectedTrainer(trainerId);
+  };
+
+  const onUpdateTrainer = async (updatedTrainer: Trainer) => {
+    const newData = {
+      trainers: {
+        ...data.trainers,
+        [selectedTrainer!]: updatedTrainer,
+      },
+    };
+
+    await onUpdateData(newData);
+  };
+
+  const onClear = async () => {
+    await onUpdateData({ trainers: {} });
   };
 
   const trainer = useMemo(() => {
@@ -68,7 +112,20 @@ export const DataProvider: React.FC<PropsWithChildren<{}>> = (props) => {
   }, [data, selectedTrainer]);
 
   return (
-    <DataContext.Provider value={{ trainer, onUpdateData, setSelectedTrainer }}>
+    <DataContext.Provider
+      value={{
+        // Data
+        trainer,
+        isLoading,
+        trainers: data.trainers,
+
+        // Methods
+        onClear,
+        onAddTrainer,
+        onUpdateTrainer,
+        setSelectedTrainer,
+      }}
+    >
       {children}
     </DataContext.Provider>
   );

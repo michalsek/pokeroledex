@@ -13,6 +13,7 @@ export const EmptyTrainer: Trainer = {
   actualHP: 0,
   maxWill: 0,
   actualWill: 0,
+  pokemonsOwned: [],
   attributes: {
     strength: 0,
     dexterity: 0,

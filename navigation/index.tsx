@@ -14,11 +14,9 @@ import Icon from 'components/Icon';
 import TrainerScreen from 'screens/TrainerScreen';
 import PokemonsScreen from 'screens/PokemonsScreen';
 import MetaScreen from 'screens/Meta';
-import {
-  RootStackParamList,
-  RootTabParamList,
-  RootTabScreenProps,
-} from '../types';
+import { RootStackParamList, RootTabParamList } from '../types';
+import useData from 'context/Store';
+import { isEmpty } from 'lodash';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>['name'];
@@ -98,10 +96,15 @@ function BottomTabNavigator() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const data = useData();
+
+  if (data.isLoading) {
+    return <View></View>;
+  }
+
   return (
     <Stack.Navigator
-      initialRouteName="Root"
-      screenOptions={{ presentation: 'modal' }}
+      initialRouteName={isEmpty(data.trainers) ? 'Meta' : 'Root'}
     >
       <Stack.Screen
         name="Root"

@@ -12,9 +12,9 @@ interface Props {
 
 const PokeCounter: React.FC<Props> = (props) => {
   const { editable, characterPath } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
 
-  const { caught, seen } = get(data, [characterPath, 'pokemons']) ?? 0;
+  const { caught, seen } = get(trainer, 'pokemons') ?? 0;
 
   if (editable) {
     return null;

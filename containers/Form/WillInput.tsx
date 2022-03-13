@@ -3,51 +3,46 @@ import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 import { get, cloneDeep, set, toNumber } from 'lodash';
 
 import useData from 'context/Store';
+import getDataPath from '../../utils/getDataPath';
 
 interface Props {
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
 }
 
 const WillInput: React.FC<Props> = (props) => {
   const { editable, characterPath } = props;
-  const { onUpdateData, ...data } = useData();
+  const { onUpdateTrainer, trainer } = useData();
+  const maxWillPath = getDataPath(characterPath, 'maxWill');
+  const actWillPath = getDataPath(characterPath, 'actualWill');
 
-  const maxWill = get(data, [characterPath, 'maxWill']);
-  const actualWill = get(data, [characterPath, 'actualWill']);
+  const maxWill = get(trainer, maxWillPath);
+  const actualWill = get(trainer, actWillPath);
 
   const onChangeMaxWill = (newText: string) => {
-    const newData = cloneDeep(data);
+    const newData = cloneDeep(trainer);
     const newMaxWill = toNumber(newText);
 
-    set(newData, [characterPath, 'maxWill'], newMaxWill);
+    set(newData, maxWillPath, newMaxWill);
 
     if (newMaxWill !== 0) {
       const newActualWill = Math.min(newMaxWill, actualWill);
-      set(newData, [characterPath, 'actualWill'], toNumber(newActualWill));
+      set(newData, actWillPath, toNumber(newActualWill));
     }
 
-    onUpdateData(newData);
+    onUpdateTrainer(newData);
   };
 
   const onLowerActualWill = () => {
-    const newData = cloneDeep(data);
-
-    set(newData, [characterPath, 'actualWill'], Math.max(0, actualWill - 1));
-
-    onUpdateData(newData);
+    const newData = cloneDeep(trainer);
+    set(newData, actWillPath, Math.max(0, actualWill - 1));
+    onUpdateTrainer(newData);
   };
 
   const onHigherActualWill = () => {
-    const newData = cloneDeep(data);
-
-    set(
-      newData,
-      [characterPath, 'actualWill'],
-      Math.min(maxWill, actualWill + 1),
-    );
-
-    onUpdateData(newData);
+    const newData = cloneDeep(trainer);
+    set(newData, actWillPath, Math.min(maxWill, actualWill + 1));
+    onUpdateTrainer(newData);
   };
 
   return (

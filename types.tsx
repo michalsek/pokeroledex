@@ -26,6 +26,18 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
 
 export enum Rank {
   Starter = 'Starter',
+  Begginer = 'Begginer',
+  Amateur = 'Amateur',
+  Ace = 'Ace',
+  Pro = 'Pro',
+  Master = 'Master',
+  Champion = 'Champion',
+}
+
+export enum EvolutionTime {
+  Fast = 5,
+  Medium = 15,
+  Slow = 45,
 }
 
 export interface Attributes {
@@ -102,10 +114,10 @@ export interface Trainer {
     caught: number;
     seen: number;
   };
-  pokemonsOwned: Pokemon[];
+  pokemonsOwned: OwnedPokemon[];
 }
 
-export interface Pokemon {
+export interface OwnedPokemon {
   number: number;
   attributes: Attributes;
   socialAttributes: SocialAttributes;
@@ -114,11 +126,98 @@ export interface Pokemon {
   loyalty: number;
   battleNumber: number;
   victories: number;
-  maxHp: number;
+  maxHP: number;
   maxWill: number;
   rank: Rank;
   nature: string;
   confidence: number;
   accessory: string;
   moves: number[];
+}
+
+export enum PokemonType {
+  Normal = 'Normal',
+  Bug = 'Bug',
+  Dark = 'Dark',
+  Dragon = 'Dragon',
+  Electric = 'Electric',
+  Fairy = 'Fairy',
+  Fight = 'Fight',
+  Fire = 'Fire',
+  Flying = 'Flying',
+  Ghost = 'Ghost',
+  Grass = 'Grass',
+  Ground = 'Ground',
+  Ice = 'Ice',
+  Poison = 'Poison',
+  Psychic = 'Psychic',
+  Rock = 'Rock',
+  Steel = 'Steel',
+  Water = 'Water',
+}
+
+export enum AttackType {
+  Physical = 'Physical',
+  Special = 'Special',
+  None = 'None',
+}
+
+export interface SkillPath {
+  group: keyof Skills;
+  name:
+    | keyof Skills['fight']
+    | keyof Skills['knowledge']
+    | keyof Skills['social']
+    | keyof Skills['survival'];
+}
+
+export enum MoveEffectType {
+  Damaging = 'Damaging',
+  NonDamaging = 'NonDamaging',
+  WeightLoss = 'WeightLoss',
+  NoEscape = 'NoEscape',
+}
+
+export interface MoveEffect {
+  type: MoveEffectType;
+  values?: (number | string)[];
+}
+
+export interface PokemonMove {
+  id: number;
+  type: PokemonType;
+  name: string;
+  power: number;
+  attackType: AttackType;
+  accuracy: [SkillPath, SkillPath];
+  damagePool?: {
+    skill: SkillPath;
+    modifier: number;
+  };
+  effects: MoveEffect[];
+  effecstDescription: string;
+  description: string;
+}
+
+export interface Ability {
+  name: string;
+}
+
+export interface Pokemon {
+  number: number;
+  name: string;
+  type: PokemonType;
+  height: number;
+  weight: number;
+  rank: Rank;
+  descriptionTitle: string;
+  description: string;
+  startingAttributes: Attributes;
+  maxAttributes: Attributes;
+  baseHP: number;
+  suggestedRank: Rank;
+  abilities: Ability[];
+  evolutionStage: number;
+  evolutions: number[];
+  possibleMoves: number[];
 }

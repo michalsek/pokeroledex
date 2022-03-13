@@ -9,7 +9,7 @@ interface Props {
   topRadius?: boolean;
   bottomRadius?: boolean;
   editable?: boolean;
-  characterPath: string;
+  characterPath?: string;
 }
 
 const mapGroupToSkills = {

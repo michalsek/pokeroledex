@@ -7,6 +7,8 @@ import Avatar from 'components/Avatar';
 import Layout from 'components/Layout';
 import Form from 'containers/Form';
 import { RootTabScreenProps } from '../../types';
+import SocialAttributes from './SocialAttributes';
+import Attributes from './Attributes';
 
 const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
   const [editMode, setEditMode] = useState(false);
@@ -49,79 +51,10 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
       </View>
       <Layout.Stack size="small" />
       <View style={{ flexDirection: 'row' }}>
-        <View style={{ width: 120 }}>
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="attributes"
-            attributeValueName="strength"
-            characterPath={characterPath}
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="attributes"
-            attributeValueName="dexterity"
-            characterPath={characterPath}
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="attributes"
-            attributeValueName="vitality"
-            characterPath={characterPath}
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="attributes"
-            attributeValueName="insight"
-            characterPath={characterPath}
-          />
-        </View>
+        <Attributes characterPath={characterPath} editMode={editMode} />
         <Layout.Queue size="small" />
-        <View style={{ width: 120 }}>
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="socialAttributes"
-            attributeValueName="tough"
-            characterPath={characterPath}
-            backgroundColor="#f6e592"
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="socialAttributes"
-            attributeValueName="cool"
-            characterPath={characterPath}
-            backgroundColor="#f9ad8e"
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="socialAttributes"
-            attributeValueName="beauty"
-            characterPath={characterPath}
-            backgroundColor="#afc5df"
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            characterPath={characterPath}
-            attributeType="socialAttributes"
-            attributeValueName="clever"
-            backgroundColor="#aed494"
-          />
-          <Layout.Stack size="small" />
-          <Form.AttributeInput
-            editable={editMode}
-            attributeType="socialAttributes"
-            attributeValueName="cute"
-            characterPath={characterPath}
-            backgroundColor="#f7b3c5"
-          />
-        </View>
+        <SocialAttributes characterPath={characterPath} editMode={editMode} />
       </View>
-
       <Layout.Stack size="small" />
       <View style={{ flexDirection: 'row' }}>
         <View>

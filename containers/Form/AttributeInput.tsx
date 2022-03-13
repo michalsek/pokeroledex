@@ -52,7 +52,6 @@ const AttributeInput: React.FC<Props> = (props) => {
   return (
     <View
       style={{
-        flex: 1,
         borderWidth: 4,
         borderColor: '#414042',
         borderRadius: 40,

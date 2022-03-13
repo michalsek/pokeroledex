@@ -35,6 +35,12 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
 
   const characterPath = undefined;
 
+  //
+  // <View style={{ flexDirection: 'row' }}>
+  //   <Attributes characterPath={characterPath} editMode={editMode} />
+  //   <Layout.Queue size="small" />
+  // </View>
+
   return (
     <Layout.Screen scrollable>
       <View style={{ flexDirection: 'row' }}>
@@ -50,13 +56,10 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
         </View>
       </View>
       <Layout.Stack size="small" />
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Attributes characterPath={characterPath} editMode={editMode} />
-        <Layout.Queue size="small" />
         <SocialAttributes characterPath={characterPath} editMode={editMode} />
-      </View>
-      <Layout.Stack size="small" />
-      <View style={{ flexDirection: 'row' }}>
+
         <View>
           <SkillGroup
             topRadius
@@ -70,9 +73,7 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
             characterPath={characterPath}
             editable={editMode}
           />
-        </View>
-        <Layout.Queue size="small" />
-        <View>
+          <Layout.Stack size="small" />
           <SkillGroup
             topRadius
             groupName="social"

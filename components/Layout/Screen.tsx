@@ -21,7 +21,7 @@ const Scrollable: React.FC<
   }
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flex: 1 }}>
       <View style={style}>{children}</View>
     </ScrollView>
   );

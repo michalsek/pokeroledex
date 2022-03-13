@@ -40,7 +40,7 @@ const SkillInput: React.FC<Props> = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
+    <View style={{ alignItems: 'center' }}>
       <View
         style={{
           flexDirection: 'row',

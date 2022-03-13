@@ -15,6 +15,8 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 
 export type RootTabParamList = {
   Trainer: undefined;
+  Items: undefined;
+  SocialLinks: undefined;
   Pokemons: undefined;
 };
 

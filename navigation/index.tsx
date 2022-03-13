@@ -7,16 +7,18 @@ import {
   NavigationProp,
   useNavigation,
 } from '@react-navigation/native';
-
-import Colors from 'constants/Colors';
-import Icon from 'components/Icon';
-
-import TrainerScreen from 'screens/TrainerScreen';
-import PokemonsScreen from 'screens/PokemonsScreen';
-import MetaScreen from 'screens/Meta';
-import { RootStackParamList, RootTabParamList } from '../types';
-import useData from 'context/Store';
 import { isEmpty } from 'lodash';
+
+import Icon from 'components/Icon';
+import useData from 'context/Store';
+import Colors from 'constants/Colors';
+
+import MetaScreen from 'screens/Meta';
+import ItemsScreen from 'screens/Items';
+import TrainerScreen from 'screens/Trainer';
+import PokemonsScreen from 'screens/Pokemons';
+import SocialLinksScreen from 'screens/SocialLinks';
+import { RootStackParamList, RootTabParamList } from '../types';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>['name'];
@@ -76,6 +78,7 @@ function BottomTabNavigator() {
         component={TrainerScreen}
         options={{
           title: 'Trainer',
+          tabBarLabel: 'Trainer',
           tabBarIcon: ({ color }) => <TabBarIcon name="AshHat" color={color} />,
         }}
       />
@@ -87,6 +90,24 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="OpenPokeball" color={color} />
           ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Items"
+        component={ItemsScreen}
+        options={{
+          title: 'Items',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="Bulbasaur" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="SocialLinks"
+        component={SocialLinksScreen}
+        options={{
+          title: 'Social Links',
+          tabBarIcon: ({ color }) => <TabBarIcon name="Zubat" color={color} />,
         }}
       />
     </BottomTab.Navigator>

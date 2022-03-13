@@ -5,14 +5,16 @@ import HeaderButton from 'components/HeaderButton';
 import SkillGroup from 'containers/SkillGroup';
 import Avatar from 'components/Avatar';
 import Layout from 'components/Layout';
+import useData from 'context/Store';
 import Form from 'containers/Form';
 import { RootTabScreenProps } from '../../types';
 import SocialAttributes from './SocialAttributes';
 import Attributes from './Attributes';
 
 const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
-  const [editMode, setEditMode] = useState(false);
   const { navigation } = props;
+  const [editMode, setEditMode] = useState(false);
+  const { trainer } = useData();
 
   const onEditTrainer = () => {
     setEditMode(true);
@@ -24,6 +26,7 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: trainer?.name ?? 'Trainer',
       headerRight: () => (
         <HeaderButton
           label={editMode ? 'Done' : 'Edit'}
@@ -33,13 +36,9 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
     });
   }, [navigation, editMode]);
 
-  const characterPath = undefined;
+  useLayoutEffect(() => {});
 
-  //
-  // <View style={{ flexDirection: 'row' }}>
-  //   <Attributes characterPath={characterPath} editMode={editMode} />
-  //   <Layout.Queue size="small" />
-  // </View>
+  const characterPath = undefined;
 
   return (
     <Layout.Screen scrollable>
@@ -56,6 +55,16 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
         </View>
       </View>
       <Layout.Stack size="small" />
+      {editMode && (
+        <>
+          <Form.TextInput
+            editable
+            fieldName="name"
+            characterPath={characterPath}
+          />
+          <Layout.Stack size="small" />
+        </>
+      )}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <Attributes characterPath={characterPath} editMode={editMode} />
         <SocialAttributes characterPath={characterPath} editMode={editMode} />

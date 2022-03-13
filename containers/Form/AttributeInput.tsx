@@ -58,6 +58,7 @@ const AttributeInput: React.FC<Props> = (props) => {
         borderRadius: 40,
         backgroundColor,
         alignItems: 'center',
+        justifyContent: 'center',
         paddingVertical: 5,
       }}
     >

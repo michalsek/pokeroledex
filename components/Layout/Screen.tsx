@@ -14,7 +14,7 @@ interface ScreenProps {
 const Scrollable: React.FC<
   React.PropsWithChildren<{ enabled?: boolean; fullScreen?: boolean }>
 > = ({ enabled, fullScreen, children }) => {
-  const style = fullScreen ? null : styles.screenPadding;
+  const style = fullScreen ? { flex: 1 } : styles.screenPadding;
 
   if (!enabled) {
     return <View style={style}>{children}</View>;

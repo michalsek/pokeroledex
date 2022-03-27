@@ -7,10 +7,10 @@ import React, {
   useMemo,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { Trainer } from '../../types';
-import { EmptyTrainer } from '../../constants/Data';
 import { isEmpty, uniqueId } from 'lodash';
+
+import { EmptyTrainer } from 'constants/Data';
+import { Trainer } from '../../types';
 
 interface PokeData {
   trainers: {

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  TextInput as RNTextInput,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput as RNTextInput } from 'react-native';
 import { get, cloneDeep, set } from 'lodash';
 
 import useData from 'context/Store';

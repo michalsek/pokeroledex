@@ -1,4 +1,6 @@
-import { Trainer, Pokemon, Rank } from '../types';
+import { Trainer, Rank } from '../../types';
+
+export { default as Pokemons } from './pokemons';
 
 export const EmptyTrainer: Trainer = {
   name: '',

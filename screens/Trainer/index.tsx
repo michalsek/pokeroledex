@@ -34,9 +34,7 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
         />
       ),
     });
-  }, [navigation, editMode]);
-
-  useLayoutEffect(() => {});
+  }, [navigation, trainer?.name, editMode]);
 
   const characterPath = undefined;
 

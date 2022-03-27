@@ -49,6 +49,14 @@ export interface Attributes {
   insight: number;
 }
 
+export interface PokemonAttributes {
+  strength: number;
+  dexterity: number;
+  vitality: number;
+  insight: number;
+  special: number;
+}
+
 export interface SocialAttributes {
   tough: number;
   cool: number;
@@ -121,15 +129,15 @@ export interface Trainer {
 
 export interface OwnedPokemon {
   number: number;
-  attributes: Attributes;
+  attributes: PokemonAttributes;
   socialAttributes: SocialAttributes;
   skills: Skills;
   happiness: number;
   loyalty: number;
   battleNumber: number;
   victories: number;
-  maxHP: number;
-  maxWill: number;
+  actualHP: number;
+  actualWill: number;
   rank: Rank;
   nature: string;
   confidence: number;
@@ -161,16 +169,33 @@ export enum PokemonType {
 export enum AttackType {
   Physical = 'Physical',
   Special = 'Special',
-  None = 'None',
+  Support = 'Support',
 }
 
-export interface SkillPath {
-  group: keyof Skills;
-  name:
+export type SkillPath = [
+  keyof Skills,
+  (
     | keyof Skills['fight']
     | keyof Skills['knowledge']
     | keyof Skills['social']
-    | keyof Skills['survival'];
+    | keyof Skills['survival']
+  ),
+];
+
+export type RollPath =
+  | SkillPath
+  | keyof PokemonAttributes
+  | keyof SocialAttributes;
+
+export enum MoveTarget {
+  User = 'User',
+  OneAlly = 'OneAlly',
+  UserAndAllies = 'UserAndAllies',
+  Foe = 'Foe',
+  RandomFoe = 'RandomFole',
+  AllFoes = 'AllFoes',
+  Area = 'Area',
+  Battlefield = 'Battlefield',
 }
 
 export enum MoveEffectType {
@@ -180,24 +205,42 @@ export enum MoveEffectType {
   NoEscape = 'NoEscape',
 }
 
+export enum EvolutionStage {
+  First = 'First',
+  Second = 'Second',
+  Final = 'Final',
+  MegaEvolution = 'MegaEvolution',
+}
+
 export interface MoveEffect {
   type: MoveEffectType;
   values?: (number | string)[];
 }
 
 export interface PokemonMove {
-  id: number;
+  id: string;
   type: PokemonType;
   name: string;
   power: number;
-  attackType: AttackType;
-  accuracy: [SkillPath, SkillPath];
-  damagePool?: {
-    skill: SkillPath;
-    modifier: number;
+  attactType: AttackType;
+  effectChanceDices?: number;
+  isAlwaysAffected?: boolean;
+  isNeverAffected?: boolean;
+  accuracyReduce?: number;
+  target?: MoveTarget;
+  traitBuff?: {
+    name: keyof PokemonAttributes;
+    by: number;
   };
-  effects: MoveEffect[];
-  effecstDescription: string;
+  traitDebuff?: {
+    name: keyof PokemonAttributes;
+    by: number;
+  };
+  damageMdif?: '1d' | '2d' | '3d' | '4d' | '5d' | '6d' | number;
+  accuracyRoll?: RollPath[];
+  damageRoll?: RollPath[];
+  effects?: string[];
+  effectDescription?: string;
   description: string;
 }
 
@@ -208,18 +251,25 @@ export interface Ability {
 export interface Pokemon {
   number: number;
   name: string;
-  type: PokemonType;
+  types: PokemonType[];
   height: number;
   weight: number;
   rank: Rank;
   descriptionTitle: string;
   description: string;
-  startingAttributes: Attributes;
-  maxAttributes: Attributes;
+  startingAttributes: PokemonAttributes;
+  maxAttributes: PokemonAttributes;
   baseHP: number;
-  suggestedRank: Rank;
-  abilities: Ability[];
-  evolutionStage: number;
+  abilities: string[];
+  evolutionStage: EvolutionStage;
   evolutions: number[];
-  possibleMoves: number[];
+  possibleMoves: string[];
+}
+
+export interface PokemonMap {
+  [key: number]: Pokemon;
+}
+
+export interface MoveMap {
+  [key: string]: PokemonMove;
 }

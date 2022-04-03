@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { SharedElement } from 'react-navigation-shared-element';
 
 import pokeballImage from 'assets/images/pokeball.png';
 import PokemonImage from 'components/PokemonImage';
@@ -10,9 +11,10 @@ import { OwnedPokemon } from '../../types';
 
 interface ListItemProps {
   pokemon: OwnedPokemon;
+  onOpenDetails: (id: number) => void;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ pokemon }) => {
+const ListItem: React.FC<ListItemProps> = ({ pokemon, onOpenDetails }) => {
   const backgroundColor = useMemo(
     () => getPokemonBackground(pokemon.number),
     [pokemon.number],
@@ -29,25 +31,43 @@ const ListItem: React.FC<ListItemProps> = ({ pokemon }) => {
 
   const pokemonData = useMemo(() => Pokemons[pokemon.number], [pokemon.number]);
 
+  const onItemPress = useCallback(
+    () => onOpenDetails(pokemon.number),
+    [onOpenDetails, pokemon.number],
+  );
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onItemPress}>
       <View style={[{ backgroundColor }, styles.container]}>
         <Text style={styles.number}>{pokeNum}</Text>
         <View style={styles.dataContent}>
           <View>
-            <Text style={styles.name}>{pokemonData.name}</Text>
+            <SharedElement id={`pokemon.${pokemon.number}.name`}>
+              <Text style={styles.name}>{pokemonData.name}</Text>
+            </SharedElement>
             <Layout.Stack size="small" />
             <Text style={styles.description}>
               {pokemonData.descriptionTitle}
             </Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <View style={styles.rankWrapper}>
-              <Text style={styles.rankText}>{pokemonData.rank}</Text>
-            </View>
+            {pokemonData.types.map((type, index) => (
+              <React.Fragment key={type}>
+                <Layout.Badge
+                  label={type}
+                  color={index > 0 ? getPokemonBackground(type) : undefined}
+                />
+                <Layout.Queue size="small" />
+              </React.Fragment>
+            ))}
           </View>
         </View>
-        <PokemonImage id={pokemon.number} size={100} />
+        <SharedElement
+          id={`pokemon.${pokemon.number}.image`}
+          style={{ zIndex: 1 }}
+        >
+          <PokemonImage id={pokemon.number} size={100} />
+        </SharedElement>
         <Image source={pokeballImage} style={styles.bgImage} />
       </View>
     </TouchableOpacity>

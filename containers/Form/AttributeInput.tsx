@@ -1,19 +1,36 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { memo } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { get, cloneDeep, set, times } from 'lodash';
 
 import useData from 'context/Store';
+import Dots from 'components/Dots';
+import Layout from 'components/Layout';
 import translate from '../../utils/translate';
 import getDataPath from '../../utils/getDataPath';
+import Colors from 'constants/Colors';
 
 interface Props {
   editable?: boolean;
-  characterPath?: string;
+  characterPath?: string | string[];
   attributeType: 'attributes' | 'socialAttributes';
   attributeValueName: string;
   maxValue?: number;
-  backgroundColor?: string;
+  color?: string;
 }
+
+interface ControlButtonProps {
+  label: string;
+  onPress: () => void;
+  color?: string;
+}
+
+const ControlButton = memo(({ label, onPress, color }: ControlButtonProps) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={[styles.controlButton, { backgroundColor: color }]}>
+      <Text style={styles.controlButtonText}>{label}</Text>
+    </View>
+  </TouchableOpacity>
+));
 
 const AttributeInput: React.FC<Props> = (props) => {
   const {
@@ -21,7 +38,7 @@ const AttributeInput: React.FC<Props> = (props) => {
     maxValue = 5,
     characterPath,
     attributeType,
-    backgroundColor = '#00b2c2',
+    color = '#00b2c2',
     attributeValueName,
   } = props;
   const { onUpdateTrainer, trainer } = useData();
@@ -50,88 +67,67 @@ const AttributeInput: React.FC<Props> = (props) => {
   };
 
   return (
-    <View
-      style={{
-        borderWidth: 4,
-        borderColor: '#414042',
-        borderRadius: 40,
-        backgroundColor,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 5,
-      }}
-    >
-      <View
-        style={{
-          marginBottom: 5,
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: 15,
-        }}
-      >
-        {editable && (
-          <TouchableOpacity onPress={onLowerAttribute}>
-            <View
-              style={{
-                backgroundColor: '#414042',
-                width: 15,
-                height: 15,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
-                -
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        <Text
-          style={{
-            color: '#414042',
-            textTransform: 'uppercase',
-            fontWeight: '700',
-            marginHorizontal: 3,
-            fontSize: 10,
-          }}
-        >
-          {translate([attributeType, attributeValueName])}
-        </Text>
-        {editable && (
-          <TouchableOpacity onPress={onHigherAttribute}>
-            <View
-              style={{
-                backgroundColor: '#414042',
-                width: 15,
-                height: 15,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
-                +
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
-      <View style={{ flexDirection: 'row' }}>
-        {times(maxValue, (num) => (
-          <View
-            key={num}
-            style={{
-              width: 15,
-              height: 15,
-              backgroundColor: num + 1 <= value ? '#414042' : '#fff',
-              borderRadius: 8,
-            }}
-          />
-        ))}
-      </View>
+    <View style={styles.container}>
+      {editable && (
+        <>
+          <View style={styles.controls}>
+            <ControlButton
+              label="-"
+              onPress={onLowerAttribute}
+              color="#e75535"
+            />
+            <Layout.Queue size="medium" />
+            <ControlButton
+              label="+"
+              onPress={onHigherAttribute}
+              color="#aed494"
+            />
+          </View>
+          <Layout.Queue size="large" />
+        </>
+      )}
+      <Text style={styles.attributeName}>
+        {translate([attributeType, attributeValueName])}
+      </Text>
+      <Layout.Queue size="large" />
+      <Text style={styles.attributeValue}>{value}</Text>
+      <Layout.Queue size="large" />
+      <Dots value={value} maxValue={maxValue} frontColor={color} size={16} />
     </View>
   );
 };
 
 export default AttributeInput;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: 20,
+  },
+  attributeName: {
+    fontSize: 14,
+    fontWeight: '500',
+    minWidth: 60,
+    color: Colors.text,
+  },
+  attributeValue: {
+    fontSize: 14,
+    color: '#000',
+  },
+  controls: {
+    flexDirection: 'row',
+  },
+  controlButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  controlButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
+  },
+});

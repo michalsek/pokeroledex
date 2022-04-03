@@ -63,32 +63,28 @@ const TrainerScreen: React.FC<RootTabScreenProps<'Trainer'>> = (props) => {
           <Layout.Stack size="small" />
         </>
       )}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View>
         <Attributes characterPath={characterPath} editMode={editMode} />
         <SocialAttributes characterPath={characterPath} editMode={editMode} />
 
         <View>
           <SkillGroup
-            topRadius
             groupName="fight"
             characterPath={characterPath}
             editable={editMode}
           />
           <SkillGroup
-            bottomRadius
             groupName="survival"
             characterPath={characterPath}
             editable={editMode}
           />
           <Layout.Stack size="small" />
           <SkillGroup
-            topRadius
             groupName="social"
             characterPath={characterPath}
             editable={editMode}
           />
           <SkillGroup
-            bottomRadius
             groupName="knowledge"
             characterPath={characterPath}
             editable={editMode}

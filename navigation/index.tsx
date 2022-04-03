@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import {
   NavigationContainer,
   NavigationProp,
@@ -18,7 +19,12 @@ import ItemsScreen from 'screens/Items';
 import TrainerScreen from 'screens/Trainer';
 import PokemonsScreen from 'screens/Pokemons';
 import SocialLinksScreen from 'screens/SocialLinks';
-import { RootStackParamList, RootTabParamList } from '../types';
+import PokemonDetailsScreen from 'screens/PokemonDetails';
+import {
+  RootTabParamList,
+  RootStackParamList,
+  PokemonStackParamList,
+} from '../types';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof Icon>['name'];
@@ -38,6 +44,62 @@ function TitleButton(props: { children: string }) {
     <TouchableOpacity onPress={onPressHeader}>
       <Text style={{ color: '#fff', fontSize: 18 }}>{props.children}</Text>
     </TouchableOpacity>
+  );
+}
+
+const PokemonStack = createSharedElementStackNavigator<PokemonStackParamList>();
+
+function PokemonStackNavigator() {
+  return (
+    <PokemonStack.Navigator
+      initialRouteName="PokemonList"
+      screenOptions={{
+        headerTintColor: 'rgba(255, 255, 255, 0.8)',
+        headerTitle: (props) => <TitleButton {...props} />,
+        headerBackground: () => (
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              {
+                backgroundColor: Colors.backgroundAlt,
+              },
+            ]}
+          />
+        ),
+      }}
+    >
+      <PokemonStack.Screen
+        name="PokemonList"
+        component={PokemonsScreen}
+        options={{ title: 'Pokedex' }}
+      />
+      <PokemonStack.Screen
+        name="PokemonDetails"
+        component={PokemonDetailsScreen}
+        options={{
+          title: '',
+          headerTransparent: true,
+          headerBackground: () => (
+            <View
+              style={[
+                StyleSheet.absoluteFill,
+                {
+                  backgroundColor: 'transparent',
+                },
+              ]}
+            />
+          ),
+        }}
+        sharedElements={(route, _otherRoute, _showing) => {
+          const { id } = route.params;
+
+          return [
+            `pokemon.${id}.image`,
+            { id: `pokemon.${id}.name`, animation: 'fade', resize: 'none' },
+          ];
+        }}
+      />
+    </PokemonStack.Navigator>
   );
 }
 
@@ -84,9 +146,10 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Pokemons"
-        component={PokemonsScreen}
+        component={PokemonStackNavigator}
         options={{
-          title: 'Your pokemons',
+          headerShown: false,
+          title: 'Pokedex',
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="OpenPokeball" color={color} />
           ),

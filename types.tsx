@@ -3,6 +3,7 @@ import {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
@@ -26,6 +27,18 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
     NativeStackScreenProps<RootStackParamList>
   >;
 
+export type PokemonStackParamList = {
+  PokemonList: undefined;
+  PokemonDetails: { id: number };
+};
+
+export type PokemonStackScreenProps<
+  Screen extends keyof PokemonStackParamList,
+> = CompositeScreenProps<
+  RootTabScreenProps<'Pokemons'>,
+  StackScreenProps<PokemonStackParamList, Screen>
+>;
+
 export enum Rank {
   Starter = 'Starter',
   Begginer = 'Begginer',
@@ -37,9 +50,9 @@ export enum Rank {
 }
 
 export enum EvolutionTime {
-  Fast = 5,
-  Medium = 15,
-  Slow = 45,
+  Fast = 'Fast',
+  Medium = 'Medium',
+  Slow = 'Slow',
 }
 
 export interface Attributes {
@@ -262,6 +275,7 @@ export interface Pokemon {
   baseHP: number;
   abilities: string[];
   evolutionStage: EvolutionStage;
+  evolutionType: EvolutionTime | string;
   evolutions: number[];
   possibleMoves: string[];
 }

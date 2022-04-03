@@ -6,6 +6,7 @@ export default {
     strength: 'Strength',
     dexterity: 'Dexterity',
     vitality: 'Vitality',
+    special: 'Special',
     insight: 'Insight',
   },
   socialAttributes: {

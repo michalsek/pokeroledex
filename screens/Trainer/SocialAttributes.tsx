@@ -19,7 +19,7 @@ const SocialAttributes: React.FC<SocialAttributesProps> = ({
       attributeType="socialAttributes"
       attributeValueName="tough"
       characterPath={characterPath}
-      backgroundColor="#f6e592"
+      color="#f6e592"
     />
     <Layout.Stack size="small" />
     <Form.AttributeInput
@@ -27,7 +27,7 @@ const SocialAttributes: React.FC<SocialAttributesProps> = ({
       attributeType="socialAttributes"
       attributeValueName="cool"
       characterPath={characterPath}
-      backgroundColor="#f9ad8e"
+      color="#f9ad8e"
     />
     <Layout.Stack size="small" />
     <Form.AttributeInput
@@ -35,7 +35,7 @@ const SocialAttributes: React.FC<SocialAttributesProps> = ({
       attributeType="socialAttributes"
       attributeValueName="beauty"
       characterPath={characterPath}
-      backgroundColor="#afc5df"
+      color="#afc5df"
     />
     <Layout.Stack size="small" />
     <Form.AttributeInput
@@ -43,7 +43,7 @@ const SocialAttributes: React.FC<SocialAttributesProps> = ({
       characterPath={characterPath}
       attributeType="socialAttributes"
       attributeValueName="clever"
-      backgroundColor="#aed494"
+      color="#aed494"
     />
     <Layout.Stack size="small" />
     <Form.AttributeInput
@@ -51,7 +51,7 @@ const SocialAttributes: React.FC<SocialAttributesProps> = ({
       attributeType="socialAttributes"
       attributeValueName="cute"
       characterPath={characterPath}
-      backgroundColor="#f7b3c5"
+      color="#f7b3c5"
     />
   </View>
 );

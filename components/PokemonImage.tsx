@@ -1,6 +1,11 @@
 import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useState } from 'react';
-import { Image, View, ImageSourcePropType, StyleSheet } from 'react-native';
+import {
+  Image,
+  ImageStyle,
+  StyleSheet,
+  ImageSourcePropType,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,6 +17,7 @@ import Icon from './Icon';
 interface PokemonImageProps {
   id: number;
   size?: number;
+  style?: ImageStyle;
 }
 
 function getLocalImageUrl(id: number) {
@@ -25,7 +31,7 @@ function getRemoteUrl(id: number) {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 }
 
-const PokemonImage: React.FC<PokemonImageProps> = ({ id, size = 80 }) => {
+const PokemonImage: React.FC<PokemonImageProps> = ({ id, size, style }) => {
   const [source, setSource] = useState<ImageSourcePropType | undefined>();
   const loading = useSharedValue(0);
 
@@ -64,7 +70,12 @@ const PokemonImage: React.FC<PokemonImageProps> = ({ id, size = 80 }) => {
     );
   }
 
-  return <Image source={source} style={{ width: size, height: size }} />;
+  return (
+    <Animated.Image
+      source={source}
+      style={[!!size && { width: size, height: size }, style]}
+    />
+  );
 };
 
 export default PokemonImage;

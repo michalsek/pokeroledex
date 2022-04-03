@@ -7,13 +7,22 @@ import { Pokemons } from 'constants/Data';
 import HeaderButton from 'components/HeaderButton';
 import Layout from 'components/Layout';
 import PokemonDialog from 'components/PokemonDialog';
-import { RootTabScreenProps, OwnedPokemon, Trainer } from '../../types';
+import { PokemonStackScreenProps, OwnedPokemon, Trainer } from '../../types';
 import ListItem from './ListItem';
 
-const PokemonsScreen: React.FC<RootTabScreenProps<'Pokemons'>> = (props) => {
+const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
+  props,
+) => {
   const { navigation } = props;
   const [showAddModal, setShowAddModal] = useState(false);
   const { trainer, onUpdateTrainer } = useData();
+
+  const onOpenDetails = useCallback(
+    (id: number) => {
+      navigation.navigate('PokemonDetails', { id });
+    },
+    [navigation],
+  );
 
   const onAddNewPokemon = useCallback(() => {
     setShowAddModal(true);
@@ -103,7 +112,7 @@ const PokemonsScreen: React.FC<RootTabScreenProps<'Pokemons'>> = (props) => {
 
   const renderPokemon: ListRenderItem<OwnedPokemon> = useCallback(
     ({ item }) => {
-      return <ListItem pokemon={item} />;
+      return <ListItem pokemon={item} onOpenDetails={onOpenDetails} />;
     },
     [],
   );

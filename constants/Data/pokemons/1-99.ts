@@ -1,5 +1,6 @@
 import {
   EvolutionStage,
+  EvolutionTime,
   Pokemon,
   PokemonMap,
   PokemonType,
@@ -34,6 +35,7 @@ const pokemons: PokemonMap = {
     baseHP: 3,
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.First,
+    evolutionType: EvolutionTime.Medium,
     evolutions: [1, 2, 3],
     possibleMoves: [
       'tackle',
@@ -82,6 +84,7 @@ const pokemons: PokemonMap = {
     baseHP: 4,
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.Second,
+    evolutionType: EvolutionTime.Medium,
     evolutions: [1, 2, 3],
     possibleMoves: [
       'tackle',
@@ -130,6 +133,7 @@ const pokemons: PokemonMap = {
     baseHP: 5,
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.Final,
+    evolutionType: '',
     evolutions: [1, 2, 3],
     possibleMoves: [
       'tackle',
@@ -180,6 +184,7 @@ const pokemons: PokemonMap = {
     baseHP: 3,
     abilities: ['blaze'],
     evolutionStage: EvolutionStage.First,
+    evolutionType: EvolutionTime.Medium,
     evolutions: [4, 5, 6],
     possibleMoves: [
       'scratch',

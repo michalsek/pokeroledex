@@ -15,6 +15,7 @@ import useData from 'context/Store';
 import Colors from 'constants/Colors';
 
 import MetaScreen from 'screens/Meta';
+import MovesScreen from 'screens/Moves';
 import ItemsScreen from 'screens/Items';
 import TrainerScreen from 'screens/Trainer';
 import PokemonsScreen from 'screens/Pokemons';
@@ -90,14 +91,23 @@ function PokemonStackNavigator() {
             />
           ),
         }}
-        sharedElements={(route, _otherRoute, _showing) => {
+        sharedElements={(route, otherRoute, _showing) => {
           const { id } = route.params;
+
+          if (otherRoute.name === 'Moves') {
+            return [];
+          }
 
           return [
             `pokemon.${id}.image`,
             { id: `pokemon.${id}.name`, animation: 'fade', resize: 'none' },
           ];
         }}
+      />
+      <PokemonStack.Screen
+        name="Moves"
+        component={MovesScreen}
+        options={{ title: 'Learn Moves' }}
       />
     </PokemonStack.Navigator>
   );

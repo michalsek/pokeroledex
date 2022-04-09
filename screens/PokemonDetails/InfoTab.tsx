@@ -13,7 +13,6 @@ interface Props {
 
 const InfoTab: React.FC<Props> = ({ id }) => {
   const pokemonData = useMemo(() => Pokemons[id], [id]);
-
   const color = useMemo(() => getPokemonBackground(id), [id]);
 
   return (

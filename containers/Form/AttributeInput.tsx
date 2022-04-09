@@ -2,8 +2,9 @@ import React, { memo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { get, cloneDeep, set, times } from 'lodash';
 
-import useData from 'context/Store';
 import Dots from 'components/Dots';
+import Icon from 'components/Icon';
+import useData from 'context/Store';
 import Layout from 'components/Layout';
 import translate from '../../utils/translate';
 import getDataPath from '../../utils/getDataPath';
@@ -19,18 +20,18 @@ interface Props {
 }
 
 interface ControlButtonProps {
-  label: string;
+  iconName: string;
   onPress: () => void;
   color?: string;
 }
 
-const ControlButton = memo(({ label, onPress, color }: ControlButtonProps) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={[styles.controlButton, { backgroundColor: color }]}>
-      <Text style={styles.controlButtonText}>{label}</Text>
-    </View>
-  </TouchableOpacity>
-));
+const ControlButton = memo(
+  ({ iconName, onPress, color }: ControlButtonProps) => (
+    <TouchableOpacity onPress={onPress}>
+      <Icon name={iconName} style={[styles.controlButton, { color: color }]} />
+    </TouchableOpacity>
+  ),
+);
 
 const AttributeInput: React.FC<Props> = (props) => {
   const {
@@ -72,13 +73,13 @@ const AttributeInput: React.FC<Props> = (props) => {
         <>
           <View style={styles.controls}>
             <ControlButton
-              label="-"
+              iconName="minus-circle"
               onPress={onLowerAttribute}
               color="#e75535"
             />
             <Layout.Queue size="medium" />
             <ControlButton
-              label="+"
+              iconName="plus-circle"
               onPress={onHigherAttribute}
               color="#aed494"
             />
@@ -119,15 +120,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   controlButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
+    fontSize: 20,
     alignItems: 'center',
-  },
-  controlButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
+    justifyContent: 'center',
   },
 });

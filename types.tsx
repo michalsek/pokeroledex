@@ -28,6 +28,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   >;
 
 export type PokemonStackParamList = {
+  Moves: { id: number };
   PokemonList: undefined;
   PokemonDetails: { id: number };
 };
@@ -35,8 +36,8 @@ export type PokemonStackParamList = {
 export type PokemonStackScreenProps<
   Screen extends keyof PokemonStackParamList,
 > = CompositeScreenProps<
-  RootTabScreenProps<'Pokemons'>,
-  StackScreenProps<PokemonStackParamList, Screen>
+  StackScreenProps<PokemonStackParamList, Screen>,
+  RootTabScreenProps<'Pokemons'>
 >;
 
 export enum Rank {
@@ -155,7 +156,7 @@ export interface OwnedPokemon {
   nature: string;
   confidence: number;
   accessory: string;
-  moves: number[];
+  moves: string[];
 }
 
 export enum PokemonType {

@@ -61,12 +61,16 @@ const renderTabBar = (props: any) => (
 
 const PokemonDetailsScreen: React.FC<
   PokemonStackScreenProps<'PokemonDetails'>
-> = ({ route }) => {
+> = ({ route, navigation }) => {
   const { id } = route.params;
   const headerHeight = useSharedValue(ExpnadedHeaderHeight);
   const [isExpanded, setIsExpanded] = useState(true);
   const [tabIndex, setTabIndex] = useState(0);
   const { trainer } = useData();
+
+  const onEditMoves = useCallback(() => {
+    navigation.navigate('Moves', { id });
+  }, [navigation, id]);
 
   const pokemon = useMemo(() => {
     return trainer.pokemonsOwned.find((p) => p.number === id);
@@ -134,7 +138,7 @@ const PokemonDetailsScreen: React.FC<
     ({ route }: { route: Route }) => {
       switch (route.key) {
         case 'basic': {
-          return <BasicTab id={id} />;
+          return <BasicTab id={id} onEditMoves={onEditMoves} />;
         }
         case 'attributes': {
           return <AttributesTab id={id} />;

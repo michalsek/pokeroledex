@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { get, cloneDeep, set, times } from 'lodash';
 
 import Dots from 'components/Dots';
+import Icon from 'components/Icon';
 import useData from 'context/Store';
 import Colors from 'constants/Colors';
 import Layout from 'components/Layout';
@@ -18,18 +19,18 @@ interface Props {
 }
 
 interface ControlButtonProps {
-  label: string;
+  iconName: string;
   onPress: () => void;
   color?: string;
 }
 
-const ControlButton = memo(({ label, onPress, color }: ControlButtonProps) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={[styles.controlButton, { backgroundColor: color }]}>
-      <Text style={styles.controlButtonText}>{label}</Text>
-    </View>
-  </TouchableOpacity>
-));
+const ControlButton = memo(
+  ({ iconName, onPress, color }: ControlButtonProps) => (
+    <TouchableOpacity onPress={onPress}>
+      <Icon name={iconName} style={[styles.controlButton, { color: color }]} />
+    </TouchableOpacity>
+  ),
+);
 
 const SkillInput: React.FC<Props> = (props) => {
   const {
@@ -61,9 +62,17 @@ const SkillInput: React.FC<Props> = (props) => {
       {editable && (
         <>
           <View style={styles.controls}>
-            <ControlButton label="-" onPress={onLowerSkill} color="#e75535" />
+            <ControlButton
+              iconName="minus-circle"
+              onPress={onLowerSkill}
+              color="#e75535"
+            />
             <Layout.Queue size="medium" />
-            <ControlButton label="+" onPress={onHigherSkill} color="#aed494" />
+            <ControlButton
+              iconName="plus-circle"
+              onPress={onHigherSkill}
+              color="#aed494"
+            />
           </View>
           <Layout.Queue size="large" />
         </>
@@ -101,88 +110,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   controlButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
+    fontSize: 20,
     alignItems: 'center',
-  },
-  controlButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
+    justifyContent: 'center',
   },
 });
-
-// return (
-//   <View style={{ alignItems: 'center' }}>
-//     <View
-//       style={{
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         height: 15,
-//       }}
-//     >
-//       {editable && (
-//         <TouchableOpacity onPress={onLowerSkill}>
-//           <View
-//             style={{
-//               backgroundColor: '#414042',
-//               width: 15,
-//               height: 15,
-//               borderRadius: 10,
-//               justifyContent: 'center',
-//               alignItems: 'center',
-//             }}
-//           >
-//             <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
-//               -
-//             </Text>
-//           </View>
-//         </TouchableOpacity>
-//       )}
-//       <Text
-//         style={{
-//           color: '#fff',
-//           textTransform: 'uppercase',
-//           fontWeight: '700',
-//           marginHorizontal: 3,
-//           fontSize: 10,
-//         }}
-//       >
-//         {translate(['skills', skillGroup, skillName])}
-//       </Text>
-//       {editable && (
-//         <TouchableOpacity onPress={onHigherSkill}>
-//           <View
-//             style={{
-//               backgroundColor: '#414042',
-//               width: 15,
-//               height: 15,
-//               borderRadius: 10,
-//               justifyContent: 'center',
-//               alignItems: 'center',
-//             }}
-//           >
-//             <Text style={{ color: '#fff', fontSize: 10, fontWeight: '700' }}>
-//               +
-//             </Text>
-//           </View>
-//         </TouchableOpacity>
-//       )}
-//     </View>
-//     <View style={{ flexDirection: 'row' }}>
-//       {times(maxValue, (num) => (
-//         <View
-//           key={num}
-//           style={{
-//             width: 10,
-//             height: 10,
-//             backgroundColor: num + 1 <= value ? '#414042' : '#fff',
-//             borderRadius: 5,
-//           }}
-//         />
-//       ))}
-//     </View>
-//   </View>
-// );

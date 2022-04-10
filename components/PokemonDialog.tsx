@@ -25,10 +25,6 @@ const PokemonDialog: React.FC<PokemonDialogProps> = ({
 }) => {
   const [pokeNum, setPokeNum] = useState<string>('');
 
-  const onCancelPress = useCallback(() => {
-    setPokeNum('');
-  }, [setPokeNum]);
-
   const blockPress = useCallback(() => {}, []);
 
   const onSubmitPress = useCallback(() => {

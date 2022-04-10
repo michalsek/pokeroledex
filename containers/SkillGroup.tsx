@@ -5,12 +5,14 @@ import Layout from 'components/Layout';
 
 interface Props {
   editable?: boolean;
+  isPokemon?: boolean;
   characterPath?: string | string[];
   groupName: 'fight' | 'survival' | 'social' | 'knowledge' | 'extra';
 }
 
 const mapGroupToSkills = {
-  fight: ['brawl', 'throw', 'evasion', 'weapons'],
+  fightCharacter: ['brawl', 'throw', 'evasion', 'weapons'],
+  fightPokemon: ['brawl', 'channel', 'clash', 'evasion'],
   survival: ['alert', 'athletic', 'nature', 'stealth'],
   social: ['allure', 'etiquette', 'intimidate', 'perform'],
   knowledge: ['crafts', 'lore', 'medicine', 'science'],
@@ -18,11 +20,18 @@ const mapGroupToSkills = {
 };
 
 const SkillGroup: React.FC<Props> = (props) => {
-  const { groupName, editable, characterPath } = props;
+  const { groupName, editable, characterPath, isPokemon } = props;
+
+  const mapGroupName =
+    groupName === 'fight'
+      ? isPokemon
+        ? 'fightPokemon'
+        : 'fightCharacter'
+      : groupName;
 
   return (
     <>
-      {mapGroupToSkills[groupName].map((skillName, index) => (
+      {mapGroupToSkills[mapGroupName].map((skillName, index) => (
         <React.Fragment key={skillName}>
           <Form.SkillInput
             editable={editable}
@@ -30,7 +39,7 @@ const SkillGroup: React.FC<Props> = (props) => {
             skillGroup={groupName}
             characterPath={characterPath}
           />
-          {index !== mapGroupToSkills[groupName].length - 1 && (
+          {index !== mapGroupToSkills[mapGroupName].length - 1 && (
             <Layout.Stack size="small" />
           )}
         </React.Fragment>

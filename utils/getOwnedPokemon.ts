@@ -1,8 +1,8 @@
 import { Trainer } from '../types';
 import getDataPath from './getDataPath';
 
-export default function getOwnedPokemmon(trainer: Trainer, id: number) {
-  const index = trainer.pokemonsOwned.findIndex((poke) => poke.number === id);
+export default function getOwnedPokemmon(trainer: Trainer, id: string) {
+  const index = trainer.pokemonsOwned.findIndex((poke) => poke.id === id);
   const characterPath = getDataPath('pokemonsOwned', `${index}`);
 
   return {

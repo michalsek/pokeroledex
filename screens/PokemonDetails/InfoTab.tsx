@@ -5,15 +5,15 @@ import Colors from 'constants/Colors';
 import Layout from 'components/Layout';
 import { Pokemons } from 'constants/Data';
 import PokemonImage from 'components/PokemonImage';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import { getColorForPokemonId } from '../../utils/getPokemonBackground';
 
 interface Props {
-  id: number;
+  id: string;
 }
 
 const InfoTab: React.FC<Props> = ({ id }) => {
   const pokemonData = useMemo(() => Pokemons[id], [id]);
-  const color = useMemo(() => getPokemonBackground(id), [id]);
+  const color = useMemo(() => getColorForPokemonId(id), [id]);
 
   return (
     <View style={styles.container}>
@@ -60,10 +60,13 @@ const InfoTab: React.FC<Props> = ({ id }) => {
           <View key={id} style={styles.evolutionTile}>
             <PokemonImage id={id} style={styles.evolutionImage} />
             <Layout.Stack size="small" />
-            <Text style={styles.title}>{`#${id.toLocaleString('en-US', {
-              minimumIntegerDigits: 3,
-              useGrouping: false,
-            })}`}</Text>
+            <Text style={styles.title}>{`#${Pokemons[id].number.toLocaleString(
+              'en-US',
+              {
+                minimumIntegerDigits: 3,
+                useGrouping: false,
+              },
+            )}`}</Text>
             <Text style={[styles.title, { color, fontWeight: '600' }]}>
               {Pokemons[id].name}
             </Text>

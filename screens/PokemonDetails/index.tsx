@@ -73,7 +73,7 @@ const PokemonDetailsScreen: React.FC<
   }, [navigation, id]);
 
   const pokemon = useMemo(() => {
-    return trainer.pokemonsOwned.find((p) => p.number === id);
+    return trainer.pokemonsOwned.find((p) => p.id === id);
   }, [trainer, id]);
 
   const panGesture = Gesture.Pan()
@@ -171,7 +171,7 @@ const PokemonDetailsScreen: React.FC<
         </Animated.View>
         <Animated.View style={[styles.headerFront, headerStyles]}>
           <SharedElement id={`pokemon.${id}.image`} style={styles.pokemonImage}>
-            <PokemonImage id={id} style={pokeImageStyles} />
+            <PokemonImage id={pokemon!.id} style={pokeImageStyles} />
           </SharedElement>
         </Animated.View>
       </View>

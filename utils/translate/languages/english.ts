@@ -23,6 +23,8 @@ export default {
       throw: 'Throw',
       evasion: 'Evasion',
       weapons: 'Weapons',
+      clash: 'Clash',
+      channel: 'Channel',
     },
     survival: {
       groupName: 'Survival',

@@ -8,7 +8,8 @@ import {
 } from '../../../types';
 
 const pokemons: PokemonMap = {
-  1: {
+  '001': {
+    id: '001',
     number: 1,
     name: 'Bulbasaur',
     types: [PokemonType.Grass, PokemonType.Poison],
@@ -36,7 +37,7 @@ const pokemons: PokemonMap = {
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.First,
     evolutionType: EvolutionTime.Medium,
-    evolutions: [1, 2, 3],
+    evolutions: ['001', '002', '003'],
     possibleMoves: [
       'tackle',
       'growl',
@@ -57,7 +58,8 @@ const pokemons: PokemonMap = {
       'grass-pledge',
     ],
   },
-  2: {
+  '002': {
+    id: '002',
     number: 2,
     name: 'Ivysaur',
     types: [PokemonType.Grass, PokemonType.Poison],
@@ -85,7 +87,7 @@ const pokemons: PokemonMap = {
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.Second,
     evolutionType: EvolutionTime.Medium,
-    evolutions: [1, 2, 3],
+    evolutions: ['001', '002', '003'],
     possibleMoves: [
       'tackle',
       'growl',
@@ -106,7 +108,8 @@ const pokemons: PokemonMap = {
       'grass-pledge',
     ],
   },
-  3: {
+  '003': {
+    id: '003',
     number: 3,
     name: 'Venusaur',
     types: [PokemonType.Grass, PokemonType.Poison],
@@ -134,7 +137,7 @@ const pokemons: PokemonMap = {
     abilities: ['overgrow'],
     evolutionStage: EvolutionStage.Final,
     evolutionType: '',
-    evolutions: [1, 2, 3],
+    evolutions: ['001', '002', '003'],
     possibleMoves: [
       'tackle',
       'growl',
@@ -157,7 +160,8 @@ const pokemons: PokemonMap = {
       'frenzy-plant',
     ],
   },
-  4: {
+  '004': {
+    id: '004',
     number: 4,
     name: 'Charmander',
     types: [PokemonType.Fire],
@@ -185,13 +189,61 @@ const pokemons: PokemonMap = {
     abilities: ['blaze'],
     evolutionStage: EvolutionStage.First,
     evolutionType: EvolutionTime.Medium,
-    evolutions: [4, 5, 6],
+    evolutions: ['004', '005'], //  '006'],
     possibleMoves: [
       'scratch',
       'growl',
       'ember',
       'smokescreen',
       'dragon-rage',
+      'scary-face',
+      'fire-fang',
+      'flame-burst',
+      'slash',
+      'fire-spin',
+      'flamethrower',
+      'inferno',
+      'metal-claw',
+      'dragon-dance',
+      'fire-pledge',
+    ],
+  },
+  '005': {
+    id: '005',
+    number: 5,
+    name: 'Charmeleon',
+    types: [PokemonType.Fire],
+    height: 1.1,
+    weight: 20,
+    rank: Rank.Amateur,
+    descriptionTitle: 'Flame Pokemon',
+    description:
+      'It turns aggressive after evolving, it is very hot-headed by nature, so it constantly starts fights. When it’s excited, the flame at the tip of its tail flares with a bluish white color.',
+    startingAttributes: {
+      strength: 2,
+      dexterity: 2,
+      vitality: 2,
+      special: 2,
+      insight: 2,
+    },
+    maxAttributes: {
+      strength: 4,
+      dexterity: 5,
+      vitality: 4,
+      special: 5,
+      insight: 4,
+    },
+    baseHP: 4,
+    abilities: ['blaze'],
+    evolutionStage: EvolutionStage.Second,
+    evolutionType: EvolutionTime.Medium,
+    evolutions: ['004', '005'], //  '006'],
+    possibleMoves: [
+      'scratch',
+      'growl',
+      'ember',
+      'smokescreen',
+      'dragon-range',
       'scary-face',
       'fire-fang',
       'flame-burst',

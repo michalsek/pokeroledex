@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import useData from 'context/Store';
 import Colors from 'constants/Colors';
@@ -8,10 +8,10 @@ import { Pokemons } from 'constants/Data';
 import MoveList from 'containers/MoveList';
 import Abilities from 'containers/Abilties';
 import getOwnedPokemon from '../../utils/getOwnedPokemon';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import { getColorForPokemonId } from '../../utils/getPokemonBackground';
 
 interface Props {
-  id: number;
+  id: string;
   onEditMoves: () => void;
 }
 
@@ -19,10 +19,10 @@ const MovesTab: React.FC<Props> = ({ id, onEditMoves }) => {
   const { trainer } = useData();
   const { pokemon } = getOwnedPokemon(trainer, id);
   const pokemonData = useMemo(() => Pokemons[id], [id]);
-  const color = useMemo(() => getPokemonBackground(id), [id]);
+  const color = useMemo(() => getColorForPokemonId(id), [id]);
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <Layout.Stack size="large" />
       <View style={styles.row}>
         <View style={styles.row}>
@@ -46,7 +46,7 @@ const MovesTab: React.FC<Props> = ({ id, onEditMoves }) => {
       <Abilities abilities={pokemonData.abilities} />
       <Layout.Stack size="large" />
       <MoveList id={id} onEditMoves={onEditMoves} />
-    </ScrollView>
+    </View>
   );
 };
 

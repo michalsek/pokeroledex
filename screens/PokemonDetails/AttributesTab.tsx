@@ -8,17 +8,17 @@ import { Pokemons } from 'constants/Data';
 import Attributes from 'containers/Attributes';
 import { PokemonAttributes } from '../../types';
 import getOwnedPokemon from '../../utils/getOwnedPokemon';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import { getColorForPokemonId } from '../../utils/getPokemonBackground';
 
 interface Props {
-  id: number;
+  id: string;
 }
 
 const AttributesTab: React.FC<Props> = ({ id }) => {
   const [editMode, setEditMode] = useState(false);
   const { trainer } = useData();
 
-  const color = useMemo(() => getPokemonBackground(id), [id]);
+  const color = useMemo(() => getColorForPokemonId(id), [id]);
   const pokemonData = useMemo(() => Pokemons[id], [id]);
   const { characterPath } = getOwnedPokemon(trainer, id);
 

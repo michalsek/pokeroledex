@@ -22,15 +22,13 @@ const ColorMap = {
   Water: '#477b92',
 };
 
-export default function getPokemonBackground(
-  idOrType: number | PokemonType,
-): string {
-  if (typeof idOrType !== 'number') {
-    return ColorMap[idOrType];
-  }
-
-  const pokemon = Pokemons[idOrType];
+export function getColorForPokemonId(id: string): string {
+  const pokemon = Pokemons[id];
   const type = pokemon.types[0] ?? PokemonType.Normal;
 
   return ColorMap[type];
+}
+
+export function getColorForPokemonType(pokemonType?: PokemonType): string {
+  return ColorMap[pokemonType ?? PokemonType.Normal];
 }

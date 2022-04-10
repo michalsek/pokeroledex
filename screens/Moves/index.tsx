@@ -20,7 +20,7 @@ const MovesScreen: React.FC<PokemonStackScreenProps<'Moves'>> = (props) => {
 
   const pokemonData = useMemo(() => Pokemons[id], [id]);
   const pokemon = useMemo(() => {
-    return trainer.pokemonsOwned.find((p) => p.number === id);
+    return trainer.pokemonsOwned.find((p) => p.id === id);
   }, [trainer, id]);
 
   const possibleMoves = useMemo(() => {

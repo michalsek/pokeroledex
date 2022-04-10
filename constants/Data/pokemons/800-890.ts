@@ -7,7 +7,8 @@ import {
 } from '../../../types';
 
 const pokemons: PokemonMap = {
-  869: {
+  '869': {
+    id: '869',
     number: 869,
     name: 'Alcremie',
     types: [PokemonType.Fairy],
@@ -34,7 +35,7 @@ const pokemons: PokemonMap = {
     abilities: ['sweet-veil', 'aroma-veil'],
     evolutionStage: EvolutionStage.Final,
     evolutionType: '',
-    evolutions: [868, 869],
+    evolutions: [868], // , 869],
     possibleMoves: [
       'tackle',
       'aromatic-mist',
@@ -54,9 +55,10 @@ const pokemons: PokemonMap = {
       'fake-tears',
     ],
   },
-  77: {
+  '077p': {
+    id: '077p',
     number: 77,
-    name: 'Pnyta',
+    name: 'Ponyta',
     types: [PokemonType.Psychic],
     height: 0.8,
     weight: 24,
@@ -81,7 +83,7 @@ const pokemons: PokemonMap = {
     abilities: ['run-away', 'pastel-veil'],
     evolutionStage: EvolutionStage.First,
     evolutionType: EvolutionTime.Medium,
-    evolutions: [77, 78],
+    evolutions: [77], //, 78],
     possibleMoves: [
       'tackle',
       'growl',

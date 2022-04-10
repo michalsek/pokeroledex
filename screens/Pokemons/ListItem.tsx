@@ -6,18 +6,21 @@ import pokeballImage from 'assets/images/pokeball.png';
 import PokemonImage from 'components/PokemonImage';
 import { Pokemons } from 'constants/Data';
 import Layout from 'components/Layout';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import {
+  getColorForPokemonId,
+  getColorForPokemonType,
+} from '../../utils/getPokemonBackground';
 import { OwnedPokemon } from '../../types';
 
 interface ListItemProps {
   pokemon: OwnedPokemon;
-  onOpenDetails: (id: number) => void;
+  onOpenDetails: (id: string) => void;
 }
 
 const ListItem: React.FC<ListItemProps> = ({ pokemon, onOpenDetails }) => {
   const backgroundColor = useMemo(
-    () => getPokemonBackground(pokemon.number),
-    [pokemon.number],
+    () => getColorForPokemonId(pokemon.id),
+    [pokemon.id],
   );
 
   const pokeNum = useMemo(
@@ -29,10 +32,10 @@ const ListItem: React.FC<ListItemProps> = ({ pokemon, onOpenDetails }) => {
     [pokemon.number],
   );
 
-  const pokemonData = useMemo(() => Pokemons[pokemon.number], [pokemon.number]);
+  const pokemonData = useMemo(() => Pokemons[pokemon.id], [pokemon.id]);
 
   const onItemPress = useCallback(
-    () => onOpenDetails(pokemon.number),
+    () => onOpenDetails(pokemon.id),
     [onOpenDetails, pokemon.number],
   );
 
@@ -55,18 +58,15 @@ const ListItem: React.FC<ListItemProps> = ({ pokemon, onOpenDetails }) => {
               <React.Fragment key={type}>
                 <Layout.Badge
                   label={type}
-                  color={index > 0 ? getPokemonBackground(type) : undefined}
+                  color={index > 0 ? getColorForPokemonType(type) : undefined}
                 />
                 <Layout.Queue size="small" />
               </React.Fragment>
             ))}
           </View>
         </View>
-        <SharedElement
-          id={`pokemon.${pokemon.number}.image`}
-          style={{ zIndex: 1 }}
-        >
-          <PokemonImage id={pokemon.number} size={100} />
+        <SharedElement id={`pokemon.${pokemon.id}.image`} style={{ zIndex: 1 }}>
+          <PokemonImage id={pokemon.id} size={100} />
         </SharedElement>
         <Image source={pokeballImage} style={styles.bgImage} />
       </View>

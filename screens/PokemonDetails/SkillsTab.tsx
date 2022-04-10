@@ -6,17 +6,17 @@ import useData from 'context/Store';
 import Layout from 'components/Layout';
 import SkillGroup from 'containers/SkillGroup';
 import getOwnedPokemon from '../../utils/getOwnedPokemon';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import { getColorForPokemonId } from '../../utils/getPokemonBackground';
 
 interface Props {
-  id: number;
+  id: string;
 }
 
 const SkillsTab: React.FC<Props> = ({ id }) => {
   const [editMode, setEditMode] = useState(false);
   const { trainer } = useData();
 
-  const color = useMemo(() => getPokemonBackground(id), [id]);
+  const color = useMemo(() => getColorForPokemonId(id), [id]);
   const { characterPath } = getOwnedPokemon(trainer, id);
 
   const onToggleEdit = useCallback(() => {
@@ -36,6 +36,7 @@ const SkillsTab: React.FC<Props> = ({ id }) => {
         groupName="fight"
         characterPath={characterPath}
         editable={editMode}
+        isPokemon
       />
       <Layout.Stack size="large" />
       <Layout.Stack size="large" />

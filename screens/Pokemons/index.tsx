@@ -9,6 +9,7 @@ import Layout from 'components/Layout';
 import PokemonDialog from 'components/PokemonDialog';
 import { PokemonStackScreenProps, OwnedPokemon, Trainer } from '../../types';
 import ListItem from './ListItem';
+import { find } from 'lodash';
 
 const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
   props,
@@ -18,7 +19,7 @@ const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
   const { trainer, onUpdateTrainer } = useData();
 
   const onOpenDetails = useCallback(
-    (id: number) => {
+    (id: string) => {
       navigation.navigate('PokemonDetails', { id });
     },
     [navigation],
@@ -34,7 +35,7 @@ const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
 
   const onSubmitPokemon = useCallback(
     (pokeNumInt: number) => {
-      const basePokemon = Pokemons[pokeNumInt];
+      const basePokemon = find(Pokemons, (poke) => poke.number === pokeNumInt);
 
       if (isNaN(pokeNumInt) || !basePokemon) {
         Alert.alert("Couldn't find that pokemon!");
@@ -43,6 +44,7 @@ const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
 
       const newPokemon: OwnedPokemon = {
         number: pokeNumInt,
+        id: basePokemon.id,
         attributes: {
           ...basePokemon.startingAttributes,
         },
@@ -59,6 +61,8 @@ const PokemonsScreen: React.FC<PokemonStackScreenProps<'PokemonList'>> = (
             throw: 0,
             evasion: 0,
             weapons: 0,
+            clash: 0,
+            channel: 0,
           },
           survival: {
             alert: 0,

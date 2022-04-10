@@ -14,11 +14,14 @@ import DotsBackground from 'components/DotsBackground';
 import Layout from 'components/Layout';
 import Pokeball from 'components/Pokeball';
 import { Pokemons } from 'constants/Data';
-import getPokemonBackground from '../../utils/getPokemonBackground';
+import {
+  getColorForPokemonId,
+  getColorForPokemonType,
+} from '../../utils/getPokemonBackground';
 import { Rank } from '../../types';
 
 interface HeaderProps {
-  id: number;
+  id: string;
   rank: Rank;
   headerHeight: SharedValue<number>;
 }
@@ -35,11 +38,11 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   const insets = useSafeAreaInsets();
   const pokemonData = useMemo(() => Pokemons[id], [id]);
-  const backgroundColor = useMemo(() => getPokemonBackground(id), [id]);
+  const backgroundColor = useMemo(() => getColorForPokemonId(id), [id]);
 
   const pokeNum = useMemo(
     () =>
-      `#${id.toLocaleString('en-US', {
+      `#${pokemonData.number.toLocaleString('en-US', {
         minimumIntegerDigits: 3,
         useGrouping: false,
       })}`,
@@ -118,7 +121,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             <React.Fragment key={type}>
               <Layout.Badge
                 label={type}
-                color={index > 0 ? getPokemonBackground(type) : undefined}
+                color={index > 0 ? getColorForPokemonType(type) : undefined}
               />
               <Layout.Queue size="small" />
             </React.Fragment>

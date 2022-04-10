@@ -13,6 +13,7 @@ import getDataPath from '../../utils/getDataPath';
 interface Props {
   maxValue?: number;
   editable?: boolean;
+  isPokemon?: boolean;
   characterPath?: string | string[];
   skillGroup: 'fight' | 'survival' | 'social' | 'knowledge' | 'extra';
   skillName: string;

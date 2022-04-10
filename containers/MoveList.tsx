@@ -5,20 +5,20 @@ import { startCase } from 'lodash';
 
 import Icon from 'components/Icon';
 import useData from 'context/Store';
-import getPokemonBackground from '../utils/getPokemonBackground';
+import { getColorForPokemonId } from '../utils/getPokemonBackground';
 import Layout from 'components/Layout';
 
 interface Props {
-  id: number;
+  id: string;
   onEditMoves: () => void;
 }
 
 const MoveList: React.FC<Props> = ({ id, onEditMoves }) => {
-  const color = useMemo(() => getPokemonBackground(id), [id]);
+  const color = useMemo(() => getColorForPokemonId(id), [id]);
   const { trainer } = useData();
 
   const pokemon = useMemo(() => {
-    return trainer.pokemonsOwned.find((p) => p.number === id);
+    return trainer.pokemonsOwned.find((p) => p.id === id);
   }, [trainer, id]);
 
   return (
@@ -34,7 +34,10 @@ const MoveList: React.FC<Props> = ({ id, onEditMoves }) => {
       <Layout.Stack size="medium" />
       <View style={styles.listContainer}>
         {pokemon?.moves.map((move, index) => (
-          <View style={[styles.item, index % 2 === 1 && { marginLeft: '5%' }]}>
+          <View
+            key={move}
+            style={[styles.item, index % 2 === 1 && { marginLeft: '5%' }]}
+          >
             <Text style={styles.itemTitle}>{startCase(move)}</Text>
           </View>
         ))}

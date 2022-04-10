@@ -28,9 +28,9 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
   >;
 
 export type PokemonStackParamList = {
-  Moves: { id: number };
+  Moves: { id: string };
   PokemonList: undefined;
-  PokemonDetails: { id: number };
+  PokemonDetails: { id: string };
 };
 
 export type PokemonStackScreenProps<
@@ -85,6 +85,8 @@ export interface Skills {
     throw: number;
     evasion: number;
     weapons: number;
+    channel: number;
+    clash: number;
   };
   survival: {
     alert: number;
@@ -142,6 +144,7 @@ export interface Trainer {
 }
 
 export interface OwnedPokemon {
+  id: string;
   number: number;
   attributes: PokemonAttributes;
   socialAttributes: SocialAttributes;
@@ -186,38 +189,38 @@ export enum AttackType {
   Support = 'Support',
 }
 
-export type SkillPath = [
-  keyof Skills,
-  (
-    | keyof Skills['fight']
-    | keyof Skills['knowledge']
-    | keyof Skills['social']
-    | keyof Skills['survival']
-  ),
-];
+// export type SkillPath = [
+//   keyof Skills,
+//   (
+//     | keyof Skills['fight']
+//     | keyof Skills['knowledge']
+//     | keyof Skills['social']
+//     | keyof Skills['survival']
+//   ),
+// ];
 
-export type RollPath =
-  | SkillPath
-  | keyof PokemonAttributes
-  | keyof SocialAttributes;
+// export type RollPath =
+//   | SkillPath
+//   | keyof PokemonAttributes
+//   | keyof SocialAttributes;
 
-export enum MoveTarget {
-  User = 'User',
-  OneAlly = 'OneAlly',
-  UserAndAllies = 'UserAndAllies',
-  Foe = 'Foe',
-  RandomFoe = 'RandomFole',
-  AllFoes = 'AllFoes',
-  Area = 'Area',
-  Battlefield = 'Battlefield',
-}
+// export enum MoveTarget {
+//   User = 'User',
+//   OneAlly = 'OneAlly',
+//   UserAndAllies = 'UserAndAllies',
+//   Foe = 'Foe',
+//   RandomFoe = 'RandomFole',
+//   AllFoes = 'AllFoes',
+//   Area = 'Area',
+//   Battlefield = 'Battlefield',
+// }
 
-export enum MoveEffectType {
-  Damaging = 'Damaging',
-  NonDamaging = 'NonDamaging',
-  WeightLoss = 'WeightLoss',
-  NoEscape = 'NoEscape',
-}
+// export enum MoveEffectType {
+//   Damaging = 'Damaging',
+//   NonDamaging = 'NonDamaging',
+//   WeightLoss = 'WeightLoss',
+//   NoEscape = 'NoEscape',
+// }
 
 export enum EvolutionStage {
   First = 'First',
@@ -226,36 +229,36 @@ export enum EvolutionStage {
   MegaEvolution = 'MegaEvolution',
 }
 
-export interface MoveEffect {
-  type: MoveEffectType;
-  values?: (number | string)[];
-}
+// export interface MoveEffect {
+//   type: MoveEffectType;
+//   values?: (number | string)[];
+// }
 
 export interface PokemonMove {
-  id: string;
-  type: PokemonType;
-  name: string;
-  power: number;
-  attactType: AttackType;
-  effectChanceDices?: number;
-  isAlwaysAffected?: boolean;
-  isNeverAffected?: boolean;
-  accuracyReduce?: number;
-  target?: MoveTarget;
-  traitBuff?: {
-    name: keyof PokemonAttributes;
-    by: number;
-  };
-  traitDebuff?: {
-    name: keyof PokemonAttributes;
-    by: number;
-  };
-  damageMdif?: '1d' | '2d' | '3d' | '4d' | '5d' | '6d' | number;
-  accuracyRoll?: RollPath[];
-  damageRoll?: RollPath[];
-  effects?: string[];
-  effectDescription?: string;
-  description: string;
+  // id: string;
+  // type: PokemonType;
+  // name: string;
+  // power: number;
+  // attactType: AttackType;
+  // effectChanceDices?: number;
+  // isAlwaysAffected?: boolean;
+  // isNeverAffected?: boolean;
+  // accuracyReduce?: number;
+  // target?: MoveTarget;
+  // traitBuff?: {
+  //   name: keyof PokemonAttributes;
+  //   by: number;
+  // };
+  // traitDebuff?: {
+  //   name: keyof PokemonAttributes;
+  //   by: number;
+  // };
+  // damageMdif?: '1d' | '2d' | '3d' | '4d' | '5d' | '6d' | number;
+  // accuracyRoll?: RollPath[];
+  // damageRoll?: RollPath[];
+  // effects?: string[];
+  // effectDescription?: string;
+  // description: string;
 }
 
 export interface Ability {
@@ -263,6 +266,7 @@ export interface Ability {
 }
 
 export interface Pokemon {
+  id: string;
   number: number;
   name: string;
   types: PokemonType[];
@@ -277,12 +281,12 @@ export interface Pokemon {
   abilities: string[];
   evolutionStage: EvolutionStage;
   evolutionType: EvolutionTime | string;
-  evolutions: number[];
+  evolutions: string[];
   possibleMoves: string[];
 }
 
 export interface PokemonMap {
-  [key: number]: Pokemon;
+  [id: string]: Pokemon;
 }
 
 export interface MoveMap {

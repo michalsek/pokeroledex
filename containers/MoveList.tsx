@@ -35,10 +35,10 @@ const MoveList: React.FC<Props> = ({ id, onEditMoves }) => {
       <View style={styles.listContainer}>
         {pokemon?.moves.map((move, index) => (
           <View
-            key={move}
+            key={move.move}
             style={[styles.item, index % 2 === 1 && { marginLeft: '5%' }]}
           >
-            <Text style={styles.itemTitle}>{startCase(move)}</Text>
+            <Text style={styles.itemTitle}>{startCase(move.move)}</Text>
           </View>
         ))}
       </View>

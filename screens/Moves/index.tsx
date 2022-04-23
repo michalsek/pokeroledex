@@ -1,18 +1,12 @@
 import React, { useMemo, useCallback, useState } from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  Text,
-  View,
-  ListRenderItem,
-  TouchableOpacity,
-} from 'react-native';
-import { uniq, filter, startCase } from 'lodash';
+import { StyleSheet, FlatList, View, ListRenderItem } from 'react-native';
+import { uniqBy, filter, find } from 'lodash';
 
 import useData from 'context/Store';
-import { Pokemons } from 'constants/Data';
-import { PokemonStackScreenProps } from '../../types';
 import Colors from 'constants/Colors';
+import { Pokemons } from 'constants/Data';
+import MoveListItem from 'containers/MoveListItem';
+import { PokemonStackScreenProps, PossibleMove } from '../../types';
 
 const MovesScreen: React.FC<PokemonStackScreenProps<'Moves'>> = (props) => {
   const { id } = props.route.params;
@@ -26,14 +20,15 @@ const MovesScreen: React.FC<PokemonStackScreenProps<'Moves'>> = (props) => {
   const possibleMoves = useMemo(() => {
     const moves = [...pokemonData.possibleMoves, ...(pokemon?.moves ?? [])];
 
-    return uniq(moves);
+    return uniqBy(moves, (m) => m.move);
   }, [pokemon, pokemonData]);
 
   const onToggleMove = useCallback(
-    (move: string) => {
+    (move: PossibleMove) => {
       if (!pokemon) {
         return;
       }
+
       const newMoves = pokemon.moves.includes(move)
         ? filter(pokemon.moves, (m) => m !== move)
         : [...pokemon.moves, move];
@@ -54,20 +49,21 @@ const MovesScreen: React.FC<PokemonStackScreenProps<'Moves'>> = (props) => {
     [pokemon, onUpdateTrainer],
   );
 
-  const renderMove: ListRenderItem<string> = useCallback(
-    ({ item }) => {
-      const isSelected = pokemon?.moves.includes(item);
+  const renderMove: ListRenderItem<PossibleMove> = useCallback(
+    ({ item, index }) => {
+      const isSelected = !!find(pokemon?.moves, (m) => m.move === item.move);
 
       const onPress = () => {
         onToggleMove(item);
       };
 
       return (
-        <TouchableOpacity onPress={onPress}>
-          <View style={[styles.item, isSelected && styles.itemSelected]}>
-            <Text style={styles.moveName}>{startCase(item)}</Text>
-          </View>
-        </TouchableOpacity>
+        <MoveListItem
+          move={item}
+          // margin={index % 2 === 1 ? 'left' : 'right'}
+          onPress={onPress}
+          isHighlighted={isSelected}
+        />
       );
     },
     [pokemon],
@@ -77,8 +73,9 @@ const MovesScreen: React.FC<PokemonStackScreenProps<'Moves'>> = (props) => {
     <View style={styles.container}>
       <FlatList
         data={possibleMoves}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => `${item.rank}-${item.move}`}
         renderItem={renderMove}
+        // numColumns={2}
         contentContainerStyle={styles.list}
       />
     </View>

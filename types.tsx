@@ -159,7 +159,7 @@ export interface OwnedPokemon {
   nature: string;
   confidence: number;
   accessory: string;
-  moves: string[];
+  moves: PossibleMove[];
 }
 
 export enum PokemonType {
@@ -192,35 +192,24 @@ export enum AttackType {
 // export type SkillPath = [
 //   keyof Skills,
 //   (
-//     | keyof Skills['fight']
-//     | keyof Skills['knowledge']
-//     | keyof Skills['social']
-//     | keyof Skills['survival']
+
 //   ),
 // ];
 
-// export type RollPath =
-//   | SkillPath
-//   | keyof PokemonAttributes
-//   | keyof SocialAttributes;
+type AttributePath = ['attributes', keyof PokemonAttributes];
+type SocialAttributePath = ['socialAttributes', keyof SocialAttributes];
+type SkillPath = [
+  'skills',
+  keyof Skills,
+  (
+    | keyof Skills['fight']
+    | keyof Skills['knowledge']
+    | keyof Skills['social']
+    | keyof Skills['survival']
+  ),
+];
 
-// export enum MoveTarget {
-//   User = 'User',
-//   OneAlly = 'OneAlly',
-//   UserAndAllies = 'UserAndAllies',
-//   Foe = 'Foe',
-//   RandomFoe = 'RandomFole',
-//   AllFoes = 'AllFoes',
-//   Area = 'Area',
-//   Battlefield = 'Battlefield',
-// }
-
-// export enum MoveEffectType {
-//   Damaging = 'Damaging',
-//   NonDamaging = 'NonDamaging',
-//   WeightLoss = 'WeightLoss',
-//   NoEscape = 'NoEscape',
-// }
+export type RollPath = (AttributePath | SocialAttributePath | SkillPath)[];
 
 export enum EvolutionStage {
   First = 'First',
@@ -229,40 +218,28 @@ export enum EvolutionStage {
   MegaEvolution = 'MegaEvolution',
 }
 
-// export interface MoveEffect {
-//   type: MoveEffectType;
-//   values?: (number | string)[];
-// }
+export interface EffectIcon {}
 
 export interface PokemonMove {
-  // id: string;
-  // type: PokemonType;
-  // name: string;
-  // power: number;
-  // attactType: AttackType;
-  // effectChanceDices?: number;
-  // isAlwaysAffected?: boolean;
-  // isNeverAffected?: boolean;
-  // accuracyReduce?: number;
-  // target?: MoveTarget;
-  // traitBuff?: {
-  //   name: keyof PokemonAttributes;
-  //   by: number;
-  // };
-  // traitDebuff?: {
-  //   name: keyof PokemonAttributes;
-  //   by: number;
-  // };
-  // damageMdif?: '1d' | '2d' | '3d' | '4d' | '5d' | '6d' | number;
-  // accuracyRoll?: RollPath[];
-  // damageRoll?: RollPath[];
-  // effects?: string[];
-  // effectDescription?: string;
-  // description: string;
+  id: string;
+  type: PokemonType;
+  name: string;
+  power: number;
+  attactType: AttackType;
+  accuracyRoll?: RollPath[];
+  damageRoll?: RollPath[];
+  additionalInfo?: string;
+  description: string;
+  effectIcons: EffectIcon[];
 }
 
 export interface Ability {
   name: string;
+}
+
+export interface PossibleMove {
+  rank: Rank;
+  move: string;
 }
 
 export interface Pokemon {
@@ -282,7 +259,7 @@ export interface Pokemon {
   evolutionStage: EvolutionStage;
   evolutionType: EvolutionTime | string;
   evolutions: string[];
-  possibleMoves: string[];
+  possibleMoves: PossibleMove[];
 }
 
 export interface PokemonMap {
